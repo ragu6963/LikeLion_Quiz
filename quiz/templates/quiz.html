@@ -1,0 +1,55 @@
+{%extends 'base.html'%}
+{% block content %}
+<div id="history_id" value="{{history.id}}">{{history.id}}</div>
+quiz.id : <div id="quiz_id" value="{{quiz.id}}">{{quiz.id}}</div>
+history.qu : <div id="history_qu" value="{{history.qu}}">{{history.qu}}</div>
+
+<h1>index page</h1>
+문제 내용 : {{quiz.content}}<br>
+{%if quiz.category == 1%}
+<button id="example1" onclick="submit1()" value="O">O</button><br>
+<button id="example2" onclick="submit2()" value="X">X</button><br>
+{%else%}
+<button id="example1" onclick="submit1()" value="{{quiz.example1}}">{{quiz.example1}}</button><br>
+<button id="example2" onclick="submit2()" value="{{quiz.example2}}">{{quiz.example2}}</button><br>
+<button id="example3" onclick="submit3()" value="{{quiz.example3}}">{{quiz.example3}}</button><br>
+{%endif%}
+<p id=time></span>
+    <form action="/">
+        <input type="submit">
+    </form>
+    <script>
+        settime = 5
+        quiz_id = document.getElementById('quiz_id').innerHTML
+        history_id = document.getElementById('history_id').innerHTML
+        url = "{%url 'check'%}"
+        function submit1() {
+            example = document.getElementById('example1').value
+            window.location.href = url + "?sel=" + example + '&quiz_id=' + quiz_id + '&history_id=' + history_id
+        }
+        function submit2() {
+            example = document.getElementById('example2').value
+            window.location.href =  url + "?sel=" + example + '&quiz_id=' + quiz_id + '&history_id=' + history_id
+        }
+        function submit3() {
+            example = document.getElementById('example3').value
+            window.location.href =  url + "?sel=" + example + '&quiz_id=' + quiz_id + '&history_id=' + history_id
+        }
+        function timer() {
+            document.getElementById('time').innerHTML = settime
+            settime--;
+            if (settime < 0) {
+                window.location.href =  url + "?sel=" + "시간초과" + '&quiz_id=' + quiz_id + '&history_id=' + history_id
+            }
+        }
+        window.onload = function TimerStart() {
+            tid = setInterval('timer()', 1000)
+        };
+
+
+
+
+    </script>
+
+
+    {% endblock %}

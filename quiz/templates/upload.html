@@ -1,0 +1,12 @@
+{%if messages%}
+  {%for message in messages%}
+    {{message|safe}}
+  {%endfor%}
+{%else%}
+  {{order}}
+  <form  method="post" enctype ="multipart/form-data">
+    {%csrf_token%}
+    <input type="file" name="file" id="">
+    <input type="submit" name="" id="">
+  </form>
+{%endif%} 

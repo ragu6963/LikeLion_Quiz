@@ -1,0 +1,14 @@
+{%extends 'base.html'%}
+{% block content %}
+<h1>result.html</h1>
+{%for key,value in res.items %}
+<form action="{%url 'detail'%}">
+    <p>{{key}}</p>
+    <p>{{value}}</p>
+    <input type="text" name="quiz_id" id="" value="{{key}}">
+    <input type="submit" value="문제 보러가기">
+    <br>------------------- <br>  
+</form>
+{%endfor%}
+<a href="{%url 'index'%}">다시 풀기</a>
+{% endblock %}

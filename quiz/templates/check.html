@@ -1,0 +1,29 @@
+{%extends 'base.html'%}
+{% block content %}
+<div id="history_id" value="{{history.id}}">{{history.id}}</div>
+<div id="quiz_id" value="{{quiz.id}}">{{quiz.id}}</div>
+history.qu : <div id="history_qu" value="{{history.qu}}">{{history.qu}}</div>
+<h1>check page</h1>
+<p>선택한 보기 : {{sel}}</p>
+<p>문제 답 : {{ans}}</p>
+<p>결과 : {{res}}</p>
+
+{%if count == 4%}
+<form action="{%url 'result'%}">
+    <input type="text" name="history_id" id="" value="{{history.id}}">
+    <input type="submit" value="결과보기">
+</form>
+{%else%}
+<button onclick="next()">NEXT</button>
+{%endif%}
+
+<script>
+    history_id = document.getElementById('history_id').innerHTML
+    quiz_id = document.getElementById('quiz_id').innerHTML
+    url = "{%url 'quiz'%}"
+    function next() {
+        window.location.href = url +"?quiz_id=" + quiz_id + '&history_id=' + history_id
+    } 
+</script>
+
+{% endblock %}
