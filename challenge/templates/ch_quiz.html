@@ -1,0 +1,100 @@
+{%extends 'base.html'%}
+{% block content %}
+<script>
+    settime = 5
+    function timer() {
+        document.getElementById('time').innerHTML = settime
+        settime--;
+        if (settime == 0) {
+            document.getElementById("timeout").submit();
+        }
+    }
+    window.onload = function TimerStart() {
+        tid = setInterval('timer()', 1000)
+    };
+
+    function noEvent() {
+        if (event.keyCode == 116) {
+            event.keyCode = 2;
+            return false;
+        }
+        else if (event.ctrlKey && (event.keyCode == 78 || event.keyCode == 82)) {
+            return false;
+        }
+    }
+    document.onkeydown = noEvent; 
+</script>
+
+<h1>index page</h1>
+문제 내용 : {{quiz.content}}<br>
+{%if quiz.category == "O/X"%}
+<form action="{%url 'ch_quiz'%}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="quiz" value="{{quiz.id}}">
+    <input type="hidden" name="challenge" value="{{challenge.id}}">
+    <input type="hidden" name="select" value="{{quiz.example1}}">
+    <input type="submit" value="{{quiz.example1}}">
+</form>
+<form action="{%url 'ch_quiz'%}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="quiz" value="{{quiz.id}}">
+    <input type="hidden" name="challenge" value="{{challenge.id}}">
+    <input type="hidden" name="select" value="{{quiz.example2}}">
+    <input type="submit" value="{{quiz.example2}}">
+</form>
+
+{%elif quiz.example3 == "빈칸"%}
+<form action="{%url 'ch_quiz'%}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="quiz" value="{{quiz.id}}">
+    <input type="hidden" name="challenge" value="{{challenge.id}}">
+    <input type="hidden" name="select" value="{{quiz.example1}}">
+    <input type="submit" value="{{quiz.example1}}">
+</form>
+<form action="{%url 'ch_quiz'%}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="quiz" value="{{quiz.id}}">
+    <input type="hidden" name="challenge" value="{{challenge.id}}">
+    <input type="hidden" name="select" value="{{quiz.example2}}">
+    <input type="submit" value="{{quiz.example2}}">
+</form>
+
+{%elif quiz.category == "객관식"%}
+
+<form action="{%url 'ch_quiz'%}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="quiz" value="{{quiz.id}}">
+    <input type="hidden" name="challenge" value="{{challenge.id}}">
+    <input type="hidden" name="select" value="{{quiz.example1}}">
+    <input type="submit" value="{{quiz.example1}}">
+</form>
+<form action="{%url 'ch_quiz'%}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="quiz" value="{{quiz.id}}">
+    <input type="hidden" name="challenge" value="{{challenge.id}}">
+    <input type="hidden" name="select" value="{{quiz.example2}}">
+    <input type="submit" value="{{quiz.example2}}">
+</form>
+<form action="{%url 'ch_quiz'%}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="quiz" value="{{quiz.id}}">
+    <input type="hidden" name="challenge" value="{{challenge.id}}">
+    <input type="hidden" name="select" value="{{quiz.example3}}">
+    <input type="submit" value="{{quiz.example3}}">
+</form> 
+{%endif%}
+
+<form id = "timeout"action="{%url 'ch_quiz'%}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="quiz" value="{{quiz.id}}">
+    <input type="hidden" name="challenge" value="{{challenge.id}}">
+    <input type="hidden" name="select" value="시간초과">
+</form>
+
+
+<p id=time></p>
+<form action="{%url 'start'%}">
+    <input type="submit" value="돌아가기">
+</form>
+
+{% endblock %}

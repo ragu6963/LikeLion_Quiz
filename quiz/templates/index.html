@@ -1,3 +1,46 @@
-<form action="{%url 'quiz'%}">
-    <input type="submit" name="" id="" value ="문제 풀기">
+{%extends 'base.html'%}
+{% block content %}
+<script>
+    
+    function ch_start() { 
+        con = document.getElementById("condition").innerHTML
+        if(con == "인증"){
+            document.getElementById("ch_start").submit()
+        }
+        else{
+            alert("로그인 해주세요")
+        }
+    }
+
+</script>
+<div id = "condition" >{{condition}}</div>
+
+<form action="{%url 'start'%}">
+    <input type="submit" name="" id="" value="연습문제">
 </form>
+
+<form id="ch_start" action="{%url 'ch_start' %}">
+    <input type="button" onclick="ch_start()" value="도전문제">
+</form>
+
+{%if user.is_authenticated%}
+<p>{{user}}</p>
+<p>{{user.id}}</p>
+<a href="javascript:{document.getElementById('logout').submit()}">로그아웃</a>
+<form id="logout" method="POST" action="{% url 'logout' %}">
+    {% csrf_token %} <input type="hidden" />
+</form>
+
+{%else%}
+<a href="{%url 'signup' %}">회원가입</a>
+<a href="{%url 'login' %}">로그인</a>
+<br>
+{%endif%}
+
+{%for key,value in dic.items%}
+<span>유저 이름 : </span>{{key}} <br>
+<span>맞춘 개수 : </span>{{value}}<br>
+<p>-----------------------------------</p>
+{%endfor%}
+
+{% endblock %}

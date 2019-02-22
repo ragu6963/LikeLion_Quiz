@@ -16,9 +16,13 @@ Including another URLconf
 from django.contrib import admin 
 from django.urls import path , include
 import quiz.views
-
+import accounts.views
+import challenge.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',quiz.views.index,name = 'index'),
+    path('upload/',quiz.views.upload,name="upload"),  
     path('quiz/',include('quiz.urls')),
+    path('accounts/',include('accounts.urls')),
+    path('challenge/',include('challenge.urls')),
 ]

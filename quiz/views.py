@@ -1,67 +1,92 @@
 from django.shortcuts import render,redirect
-from .models import Quiz, History
+from .models import Quiz, History,Challenge
+from django.contrib.auth.models import User
+from django.contrib import auth
 import csv,io
 
 def index(request):
+    challenge = Challenge.objects.all() 
 
-    return render(request,'index.html')
+    condition = ""
+    if request.user.is_authenticated == True: 
+        condition = "인증"
 
-def quiz(request):  
-    try:
-        history_id = request.GET['history_id']
+    dic = {}
+    for data in challenge:
+        key = data.user
+        value = data.rightcnt 
+        if key in dic.keys():
+            if dic[key] < value:
+                dic[key] = value 
+        else:
+            dic[key] = value
+
+    return render(request,'index.html',{"challenge":challenge,"dic":dic,"condition":condition})
+
+def start(request):
+    return render(request, 'start.html')
+
+def quiz(request):    
+    if request.method =="POST":
+        history_id = request.POST['history']
         history = History.objects.get(id = history_id)
         quiz = Quiz.objects.all()
-
-        for ex in history.qu.keys():
-            quiz = quiz.exclude(id = ex)
+        
+        for ex in history.set.keys():
+            quiz = quiz.exclude(id = ex) 
+            
         history.save()
-        quiz = quiz.order_by('?').first()  
+        quiz = quiz.order_by('?').first()
+
         return render(request,'quiz.html',{"quiz":quiz,"history":history})
 
-    except:
+    if request.method =="GET": 
         history = History() 
         quiz = Quiz.objects.all()
         quiz = quiz.order_by('?').first()  
-        history.qu={}
+        history.set={} 
         history.save()
         return render(request,'quiz.html',{"quiz":quiz,"history":history})
 
-def check(request):
-    history_id = request.GET['history_id']
-    history = History.objects.get(id = history_id)
-    
-    sel = request.GET['sel']
-    quiz_id = request.GET['quiz_id']
-    quiz = Quiz.objects.get(id = quiz_id)
-    ans = quiz.ans 
-
-    if sel == ans:
-        res = "정답"
-    else :
-        res = "오답"
-
-
-    history.qu[quiz.id] = res
-    history.save()
-    count = 0
-    for key in history.qu.keys():
-        count= count+1
-    return render(request,'check.html',{"sel":sel,"ans":ans,"res":res,"history":history,"count":count})
+def check(request): 
+    if request.method =="POST":
+        history_id = request.POST['history']
+        quiz_id = request.POST['quiz']
+        history = History.objects.get(id = history_id)
+        quiz = Quiz.objects.get(id = quiz_id)
+        select = request.POST['select']
+        result =""
+        if select == quiz.ans:
+            result = "정답"
+            history.set[quiz_id] = result
+        else:
+            result = "오답"
+            history.set[quiz_id] = result
+        history.save()
+        count = 0
+        for key in history.set.keys():
+            count= count+1
+        return render(request,'check.html',{"history":history,"count":count,"result":result})
 
 def result(request):
-    history_id = request.GET['history_id']
-    history = History.objects.get(id = history_id)
-    res = {}
-    for key,value in history.qu.items():
-        res[key] = value
-
-    return render(request,'result.html',{"res":res,"history_id":history_id})
+    if request.method =="POST":
+        history_id = request.POST['history']
+        history = History.objects.get(id = history_id)
+        result ={}
+        for key,value in history.set.items():
+            result[key] = value
+        count = 0
+        for key in history.set.keys():
+            count= count+1
+        return render(request,'result.html',{"history":history,"count":count,"result":result})
 
 def detail(request):
     quiz_id = request.GET['quiz_id']
     quiz = Quiz.objects.get(id = quiz_id)
 
     return render(request,'detail.html',{"quiz":quiz})
+
+
 
 def upload(request):
     template = "upload.html"

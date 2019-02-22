@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+{% block content %}
+<h1>result.html</h1>
+<p>맞춘 개수</p>
+{{challenge.rightcnt}}
+{%for key,value in set.items %}
+<form action="{%url 'detail'%}">
+    <span>{{key}} - </span>
+    <span>{{value}}</span>
+    <br>
+    <input type="hidden" name="quiz_id" id="" value="{{key}}">
+    <input type="submit" value="문제 확인하기">
+    <br>------------------- <br>  
+</form>
+{%endfor%}
+<a href="{%url 'index' %}">다시 풀기</a> 
+{% endblock %}
