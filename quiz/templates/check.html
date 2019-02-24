@@ -20,7 +20,7 @@ history.qu : <div id="history_set" value="{{history.set}}">{{history.set}}</div>
 <h1>check page</h1>
 <p>결과 : {{result}}</p>
 
-{%if count == 6%}
+{%if count == 12%}
 <form action="{%url 'result'%}" method="POST">
     {% csrf_token %}
     <input type="hidden" name="history" value="{{history.id}}">

@@ -13,7 +13,7 @@
     }
 
 </script>
-<div id = "condition" >{{condition}}</div>
+<div style="visibility: hidden;"id = "condition" >{{condition}}</div>
 
 <form action="{%url 'start'%}">
     <input type="submit" name="" id="" value="연습문제">
@@ -28,16 +28,15 @@
 <p>{{user.id}}</p>
 <a href="javascript:{document.getElementById('logout').submit()}">로그아웃</a>
 <form id="logout" method="POST" action="{% url 'logout' %}">
-    {% csrf_token %} <input type="hidden" />
+    {% csrf_token %}  
 </form>
 
 {%else%}
 <a href="{%url 'signup' %}">회원가입</a>
 <a href="{%url 'login' %}">로그인</a>
 <br>
-{%endif%}
-
-{%for key,value in dic.items%}
+{%endif%} 
+{%for key,value in dic%}
 <span>유저 이름 : </span>{{key}} <br>
 <span>맞춘 개수 : </span>{{value}}<br>
 <p>-----------------------------------</p>

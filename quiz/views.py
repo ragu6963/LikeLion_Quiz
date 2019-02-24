@@ -3,10 +3,10 @@ from .models import Quiz, History,Challenge
 from django.contrib.auth.models import User
 from django.contrib import auth
 import csv,io
+import operator
 
 def index(request):
     challenge = Challenge.objects.all() 
-
     condition = ""
     if request.user.is_authenticated == True: 
         condition = "인증"
@@ -14,14 +14,17 @@ def index(request):
     dic = {}
     for data in challenge:
         key = data.user
-        value = data.rightcnt 
+        value = data.rightcnt
         if key in dic.keys():
             if dic[key] < value:
                 dic[key] = value 
         else:
             dic[key] = value
+    
+    dic_list = sorted(dic.items(), key=lambda x: x[1], reverse=True) 
+    
 
-    return render(request,'index.html',{"challenge":challenge,"dic":dic,"condition":condition})
+    return render(request,'index.html',{"challenge":challenge,"dic":dic_list,"condition":condition})
 
 def start(request):
     return render(request, 'start.html')
@@ -75,9 +78,12 @@ def result(request):
         result ={}
         for key,value in history.set.items():
             result[key] = value
+
         count = 0
+
         for key in history.set.keys():
-            count= count+1
+            count= count+1 
+
         return render(request,'result.html',{"history":history,"count":count,"result":result})
 
 def detail(request):

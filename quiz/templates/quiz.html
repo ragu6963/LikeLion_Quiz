@@ -1,7 +1,7 @@
 {%extends 'base.html'%}
 {% block content %}
 <script>
-    settime = 5
+    settime = 10
     function timer() {
         document.getElementById('time').innerHTML = settime
         settime--;
@@ -12,7 +12,10 @@
     window.onload = function TimerStart() {
         tid = setInterval('timer()', 1000)
     };
-
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    }; 
     function noEvent() {
         if (event.keyCode == 116) {
             event.keyCode = 2;
