@@ -68,7 +68,8 @@ def detail(request):
     quiz = Quiz.objects.get(id=quiz_id)
 
     return render(request, 'detail.html', {"quiz": quiz})
-
+    
+@permission_required("admin can upload")
 def upload(request):
     template = "upload.html"
 
