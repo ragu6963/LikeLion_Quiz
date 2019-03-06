@@ -1,4 +1,5 @@
 {%extends 'base.html'%}
+{% load staticfiles %}
 {% block content %}
 <script>
     settime = 10
@@ -12,7 +13,10 @@
     window.onload = function TimerStart() {
         tid = setInterval('timer()', 1000)
     };
-
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
     function noEvent() {
         if (event.keyCode == 116) {
             event.keyCode = 2;
@@ -24,77 +28,63 @@
     }
     document.onkeydown = noEvent; 
 </script>
+<div class="row">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
+        <div class="base1" align="center">
+            <p style="font-size:1.75rem;color:white;font-weight:500;line-height:1.2em">Q. 
+                {{quiz.content}} </p>
+        </div>
+        <div align="center">  
+            {%if quiz.example3 == "빈칸"%}
+            <form class="form-group" action="{%url 'ch_quiz'%}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quiz" value="{{quiz.id}}">
+                <input type="hidden" name="challenge" value="{{challenge.id}}">
+                <input type="hidden" name="select" value="{{quiz.example1}}">
+                <input class="quiz" type="submit" value="{{quiz.example1}}">
+            </form>
+            <form class="form-group" action="{%url 'ch_quiz'%}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quiz" value="{{quiz.id}}">
+                <input type="hidden" name="challenge" value="{{challenge.id}}">
+                <input type="hidden" name="select" value="{{quiz.example2}}">
+                <input class="quiz" type="submit" value="{{quiz.example2}}">
+            </form> 
+            {%else%} 
+            <form class="form-group" action="{%url 'ch_quiz'%}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quiz" value="{{quiz.id}}">
+                <input type="hidden" name="challenge" value="{{challenge.id}}">
+                <input type="hidden" name="select" value="{{quiz.example1}}">
+                <input class="quiz" type="submit" value="{{quiz.example1}}">
+            </form>
+            <form class="form-group" action="{%url 'ch_quiz'%}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quiz" value="{{quiz.id}}">
+                <input type="hidden" name="challenge" value="{{challenge.id}}">
+                <input type="hidden" name="select" value="{{quiz.example2}}">
+                <input class="quiz" type="submit" value="{{quiz.example2}}">
+            </form>
+            <form class="form-group" action="{%url 'ch_quiz'%}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quiz" value="{{quiz.id}}">
+                <input type="hidden" name="challenge" value="{{challenge.id}}">
+                <input type="hidden" name="select" value="{{quiz.example3}}">
+                <input class="quiz" type="submit" value="{{quiz.example3}}">
+            </form>
+            {%endif%}
 
-<h1>index page</h1>
-문제 내용 : {{quiz.content}}<br>
-{%if quiz.category == "O/X"%}
-<form action="{%url 'ch_quiz'%}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="quiz" value="{{quiz.id}}">
-    <input type="hidden" name="challenge" value="{{challenge.id}}">
-    <input type="hidden" name="select" value="{{quiz.example1}}">
-    <input type="submit" value="{{quiz.example1}}">
-</form>
-<form action="{%url 'ch_quiz'%}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="quiz" value="{{quiz.id}}">
-    <input type="hidden" name="challenge" value="{{challenge.id}}">
-    <input type="hidden" name="select" value="{{quiz.example2}}">
-    <input type="submit" value="{{quiz.example2}}">
-</form>
-
-{%elif quiz.example3 == "빈칸"%}
-<form action="{%url 'ch_quiz'%}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="quiz" value="{{quiz.id}}">
-    <input type="hidden" name="challenge" value="{{challenge.id}}">
-    <input type="hidden" name="select" value="{{quiz.example1}}">
-    <input type="submit" value="{{quiz.example1}}">
-</form>
-<form action="{%url 'ch_quiz'%}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="quiz" value="{{quiz.id}}">
-    <input type="hidden" name="challenge" value="{{challenge.id}}">
-    <input type="hidden" name="select" value="{{quiz.example2}}">
-    <input type="submit" value="{{quiz.example2}}">
-</form>
-
-{%elif quiz.category == "객관식"%}
-
-<form action="{%url 'ch_quiz'%}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="quiz" value="{{quiz.id}}">
-    <input type="hidden" name="challenge" value="{{challenge.id}}">
-    <input type="hidden" name="select" value="{{quiz.example1}}">
-    <input type="submit" value="{{quiz.example1}}">
-</form>
-<form action="{%url 'ch_quiz'%}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="quiz" value="{{quiz.id}}">
-    <input type="hidden" name="challenge" value="{{challenge.id}}">
-    <input type="hidden" name="select" value="{{quiz.example2}}">
-    <input type="submit" value="{{quiz.example2}}">
-</form>
-<form action="{%url 'ch_quiz'%}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="quiz" value="{{quiz.id}}">
-    <input type="hidden" name="challenge" value="{{challenge.id}}">
-    <input type="hidden" name="select" value="{{quiz.example3}}">
-    <input type="submit" value="{{quiz.example3}}">
-</form> 
-{%endif%}
-
-<form id = "timeout"action="{%url 'ch_quiz'%}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="quiz" value="{{quiz.id}}">
-    <input type="hidden" name="challenge" value="{{challenge.id}}">
-    <input type="hidden" name="select" value="시간초과">
-</form>
-
-
-<p id=time></p>
-<form action="{%url 'start'%}">
-    <input type="submit" value="돌아가기">
-</form>
-
+            <form id="timeout" action="{%url 'ch_quiz'%}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quiz" value="{{quiz.id}}">
+                <input type="hidden" name="challenge" value="{{challenge.id}}">
+                <input type="hidden" name="select" value="시간초과">
+            </form> 
+        </div>
+        <h3 style="color:red;font-size:1.25rem;" align="center" id=time>10</h3>
+        <h5 style="color:white;font-size:0.9rem;" align="right">출처 : {{quiz.source}}</h5> 
+    </div> 
+</div> 
 {% endblock %}

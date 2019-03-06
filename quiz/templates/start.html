@@ -1,14 +1,22 @@
 {%extends 'base.html'%}
 {% block content %}
-<h1>연습문제</h1>
-<p>설명~~설명~~설명~~</p>
-<p>설명~~설명~~설명~~</p>
-<p>설명~~설명~~설명~~</p>
-<p>설명~~설명~~설명~~</p>
-<p>설명~~설명~~설명~~</p>
-<p>설명~~설명~~설명~~</p>
 
-<form action="{%url 'quiz'%}">
-    <input type="submit" name="" id="" value="문제 풀기">
-</form> 
-{% endblock %} 
+
+<div class="row">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
+        <div class="base1" align="center">
+            <p style="font-size:3.5rem;color:white;font-weight:700;">연습문제</p><br>
+            <p style="font-size:1.25rem;color:white;font-weight:100;line-height:1.5em">여러 퀴즈 프로그램에서 등장했던 문제들이 무작위로
+                <br> 12개 나옵니다! <br>
+                OX퀴즈와 객관식으로 이루어져 있으며 난이도는 랜덤입니다! 도전모드를 하기 전에 연습 하고 가세요!</p>
+        </div>
+        <div class=" base2" align="center">
+            <form action="{% url 'quiz'%}">
+                    <button type="submit"class="start">시작</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

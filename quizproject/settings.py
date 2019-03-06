@@ -120,4 +120,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+STATICFILES_DIRS = [ #static파일들이 있는 경로를 적어줌
+        os.path.join(BASE_DIR, 'quiz', 'static')
+    ]
+    
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')	#django에서는 django에서는 편의를 위해 흩어져있는 static파일을 한곳에 모으는데, 그때 파일을 모아줄 위치를 나타낸다.
 STATIC_URL = '/static/'

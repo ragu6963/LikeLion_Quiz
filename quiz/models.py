@@ -15,8 +15,7 @@ class History(models.Model):
     count = models.IntegerField(default=0)
     set = JSONField() 
 
-class Challenge(models.Model):    
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+class Challenge(models.Model):     
     rank = models.BooleanField(default=False)
     rightcnt = models.IntegerField(default=0)
     set = JSONField() 

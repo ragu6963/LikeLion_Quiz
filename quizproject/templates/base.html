@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
+{% load staticfiles %}
 
-<head>
+<head> 
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Blog Study</title>
@@ -17,8 +18,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Anton|Lobster|Merriweather|Noto+Serif+KR|Open+Sans:700"
+        rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 <header>
 </header>
@@ -27,14 +30,79 @@
     <div class="container">
         {% block content %}
 
-
-
         {% endblock %}
     </div>
 </body>
 <style>
     body {
-        margin-top: 60px;
+        background-color: black;
+        margin-top: 30%
+    }
+
+    .start {
+        font-weight: 700;
+        color: white;
+        font-size: 2rem;
+        background: #FF9E1B;
+        border: none;
+        min-height: 50px;
+        min-width: 250px;
+    }
+
+    .quiz {
+        font-weight: 500;
+        color: white;
+        background: black;
+        border: 0.5px;
+        border-style: solid;
+        border-color: #FF9E1B;
+        font-size: 1.25rem;
+        min-height: 50px;
+        min-width: 250px;
+    }
+    .detail { 
+        color: red;
+        background: black;
+        border: none;  
+    }
+
+    .base1 {
+        margin-top: 3rem;
+    }
+
+    .base2 {
+        margin-top: 2rem;
+    }
+
+    .base3 {
+        margin-top: 5rem;
+    }
+
+
+
+    @media (min-width: 768px) {
+        body {
+            background: url('{% static  'blacklion.jpg' %}') no-repeat;
+            background-position: cover;
+            background-size: 100%;
+            margin-top: 0;
+        }
+
+        .base1 {
+            opacity: 0.85;
+            margin-top: 12rem;
+        }
+
+        .base2 {
+            opacity: 0.85;
+            margin-top: 3rem;
+        }
+
+        .base3 {
+            opacity: 0.85;
+            margin-top: 50%;
+        }
+
     }
 </style>
 

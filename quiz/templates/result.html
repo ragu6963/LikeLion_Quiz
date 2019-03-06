@@ -1,16 +1,35 @@
 {%extends 'base.html'%}
 {% block content %}
-<h1>result.html</h1>
 
-{%for key,value in result.items %}
-<form action="{%url 'detail'%}">
-    <span>{{key}} - </span>
-    <span>{{value}}</span>
-    <br>
-    <input type="hidden" name="quiz_id" id="" value="{{key}}">
-    <input type="submit" value="문제 확인하기">
-    <br>------------------- <br>  
-</form>
-{%endfor%}
-<a href="{%url 'index' %}">다시 풀기</a> 
+<div class="row">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
+        <div class="base1" align="center">
+            <p style="font-size:1.5rem;color:white;font-weight:500;line-height:1.2em">
+                총 12가지 문제 중 {{right}} 개를 맞히셨습니다.</p>
+        </div>
+        <div class=" base2" align="center">
+            <div class="row">
+                {%for key,value in result.items %}
+                <div class='col-6'>
+                    <form class="form-group" action="{%url 'detail'%}">
+                        <div style="font-size:1.5rem;color:white;font-weight:500;line-height:1.2em">
+                            {%if value == 'O'%}
+                            {{forloop.counter}}번 - <button class="detail" type="submit" value=""><i
+                                    class="far fa-check-circle"></i></button>
+                            {%else%}
+                            {{forloop.counter}}번 - <button class="detail" type="submit" value=""><i
+                                    class="far fa-times-circle"></i></button>
+                            {%endif%}
+                        </div>
+                        <input type="hidden" name="quiz_id" id="" value="{{key}}">
+                    </form>
+                </div>
+                {%endfor%}
+            </div>
+            <a href="{%url 'index' %}" style="font-size:4rem;"><i class="far fa-arrow-alt-circle-left"></i></a> 
+        </div>
+    </div>
+</div>
 {% endblock %}

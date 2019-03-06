@@ -1,7 +1,16 @@
 {%extends 'base.html'%}
 {% block content %}
-<h1>detial.html</h1> 
-<p>문제 내용 : {{quiz.content}}</p>
-<p>문제 답 : {{quiz.ans}}</p>
-<a href="javascript:history.back()">뒤로가기</a>
-{% endblock %} 
+<div class="row">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
+        <div class="base1" align="center">
+            <p style="font-size:1.75rem;color:white;font-weight:500;line-height:1.2em">{{quiz.content}}</p>
+        </div>
+        <div class=" base2" align="center">
+            <p style="font-size:1.5rem;color:#FF9E1B;font-weight:500;line-height:1.2em"> {{quiz.ans}}</p>
+            <a href="javascript:history.back()" style="font-size:3rem;"><i class="far fa-arrow-alt-circle-left"></i></a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,22 +11,24 @@ def quiz(request):
     if request.method =="POST":
         challenge_id = request.POST['challenge']
         quiz_id = request.POST['quiz']
-        challenge = Challenge.objects.get(id = challenge_id) 
         select = request.POST['select']
+
+        challenge = Challenge.objects.get(id = challenge_id) 
+        quiz = Quiz.objects.get(id = quiz_id) 
         result ="" 
-        quiz = Quiz.objects.get(id = quiz_id)
         
 
         if select == quiz.ans:
-            result = "정답"
+            result = "O"
             challenge.set[quiz_id] = result
             challenge.rightcnt = challenge.rightcnt+1
         else:
-            result = "오답"
-            dic ={}
+            result = "X"
+            challenge.set[quiz_id] = result
+            dic={}
             for key,value in challenge.set.items():
                 dic[key] = value
-            return render(request, 'ch_result.html',{"challenge":challenge,"set":dic})
+            return render(request, 'ch_result.html',{"challenge":challenge,"dic":dic})
 
         quiz = Quiz.objects.all()
         
@@ -38,13 +40,11 @@ def quiz(request):
 
         return render(request,'ch_quiz.html',{"quiz":quiz,"challenge":challenge})
 
-    if request.method =="GET":
-        user = request.user
+    if request.method =="GET": 
         challenge = Challenge() 
         quiz = Quiz.objects.all()
         quiz = quiz.order_by('?').first()  
-        challenge.set={}
-        challenge.user = user
+        challenge.set={} 
         challenge.save()
         return render(request,'ch_quiz.html',{"quiz":quiz,"challenge":challenge})
 
