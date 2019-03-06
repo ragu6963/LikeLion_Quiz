@@ -69,7 +69,6 @@ def detail(request):
 
     return render(request, 'detail.html', {"quiz": quiz})
 
-@permission_required('admin can_add')
 def upload(request):
     template = "upload.html"
 
